@@ -13,7 +13,6 @@
 - Frontend: HTML/CSS/JavaScript + Chart.js
 - Документация API: Swagger/OpenAPI
 - Запуск: Docker Compose
-- Тесты: xUnit + EF Core InMemory
 
 ## Возможности
 
@@ -31,7 +30,6 @@
   - график расходов по дням
 - Пагинация списка расходов
 - Swagger
-- Unit-тесты для валидации и статистики
 
 ## Категории
 
@@ -61,9 +59,6 @@ ExpenseTracker/
 │       ├── wwwroot/            # Одностраничный frontend
 │       ├── Dockerfile
 │       └── Program.cs
-├── frontend/                   # Копия frontend-файлов отдельно для проверки
-├── tests/
-│   └── ExpenseTracker.Tests/   # Unit-тесты
 ├── docker-compose.yml
 ├── ExpenseTracker.sln
 └── README.md
@@ -242,15 +237,6 @@ dotnet test
 6. **Frontend сделан без тяжелого фреймворка**, так как для задания достаточно одной аккуратной страницы.
 7. **Chart.js** используется только для простого графика расходов по дням.
 8. **Docker Compose** добавлен для быстрого запуска API и PostgreSQL одной командой.
-
-## Что можно улучшить дальше
-
-- Добавить авторизацию пользователей
-- Добавить импорт/экспорт CSV
-- Добавить полноценную обработку конкурентного редактирования
-- Добавить больше unit- и integration-тестов
-- Добавить отдельный frontend-проект на React/Vue
-
 
 ## Troubleshooting
 
