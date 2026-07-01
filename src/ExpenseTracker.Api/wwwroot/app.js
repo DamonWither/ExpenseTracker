@@ -5,6 +5,7 @@ const categories = [
 ];
 const money = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' });
 let chart;
+let editingId = null; // null = создание; Guid = редактирование
 
 const $ = id => document.getElementById(id);
 
@@ -43,7 +44,10 @@ async function loadExpenses() {
       <td>${escapeHtml(e.description)}</td>
       <td>${categoryTitle(e.category)}</td>
       <td class="amount">${money.format(e.amount)}</td>
-      <td><button class="danger" onclick="deleteExpense('${e.id}')">Удалить</button></td>
+      <td>
+        <button onclick="editExpense('${e.id}')">Изменить</button>
+        <button class="danger" onclick="deleteExpense('${e.id}')">Удалить</button>
+      </td>
     </tr>`).join('') || '<tr><td colspan="5">Расходов пока нет</td></tr>';
 }
 
@@ -84,6 +88,48 @@ function escapeHtml(text) {
   return text.replace(/[&<>'"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#039;', '"':'&quot;' }[ch]));
 }
 
+// Заполнить форму для редактирования
+async function editExpense(id) {
+  try {
+    const e = await request(`${api}/${id}`);
+    // Заполнение полей
+    $('description').value = e.description;
+    $('amount').value = e.amount;
+    $('date').value = e.date;
+    $('category').value = e.category;
+    editingId = id;
+
+    // Обновить UI: изменить текст кнопки отправки, добавить кнопку отмены
+    const form = $('expenseForm');
+    const submitBtn = form.querySelector("button[type=submit]") || form.querySelector("input[type=submit]");
+    if (submitBtn) submitBtn.textContent = 'Сохранить';
+    if (!$('cancelEdit')) {
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.id = 'cancelEdit';
+      cancel.textContent = 'Отмена';
+      cancel.style.marginLeft = '8px';
+      cancel.addEventListener('click', resetEdit);
+      submitBtn?.parentNode?.insertBefore(cancel, submitBtn.nextSibling);
+    }
+    showMessage('Редактирование режима: внесите изменения и нажмите Сохранить', true);
+  } catch (err) {
+    showMessage(err.message, false);
+  }
+}
+
+function resetEdit() {
+  editingId = null;
+  const form = $('expenseForm');
+  form.reset();
+  $('date').valueAsDate = new Date();
+  const submitBtn = form.querySelector("button[type=submit]") || form.querySelector("input[type=submit]");
+  if (submitBtn) submitBtn.textContent = 'Добавить';
+  const cancel = $('cancelEdit');
+  if (cancel) cancel.remove();
+  $('formMessage').textContent = '';
+}
+
 $('expenseForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const payload = {
@@ -93,8 +139,16 @@ $('expenseForm').addEventListener('submit', async (e) => {
     category: $('category').value
   };
   try {
-    await request(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-    e.target.reset(); $('date').valueAsDate = new Date(); showMessage('Расход добавлен', true); await refresh();
+    if (editingId) {
+      await request(`${api}/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      resetEdit();
+      showMessage('Расход обновлён', true);
+    } else {
+      await request(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      e.target.reset(); $('date').valueAsDate = new Date();
+      showMessage('Расход добавлен', true);
+    }
+    await refresh();
   } catch (err) { showMessage(err.message, false); }
 });
 
