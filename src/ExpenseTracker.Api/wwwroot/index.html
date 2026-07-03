@@ -1,75 +1,128 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Трекер расходов</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Трекер расходов</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <main class="container">
-    <header class="header">
-      <div>
-        <p class="eyebrow">Личные финансы</p>
-        <h1>Трекер расходов</h1>
-      </div>
-      <div class="total-card">
-        <span>Всего за период</span>
-        <strong id="totalAmount">0 ₽</strong>
-      </div>
-    </header>
+    <main class="container">
+        <header class="header">
+            <div>
+                <p class="eyebrow">Личные финансы</p>
+                <h1>Трекер расходов</h1>
+            </div>
+        </header>
 
-    <section class="grid">
-      <form id="expenseForm" class="card form-card">
-        <h2>Добавить расход</h2>
-        <label>Описание<input id="description" maxlength="200" placeholder="Например, кофе" required /></label>
-        <label>Сумма<input id="amount" type="number" min="0.01" step="0.01" placeholder="250" required /></label>
-        <label>Дата<input id="date" type="date" required /></label>
-        <label>Категория<select id="category" required></select></label>
-        <button type="submit">Сохранить</button>
-        <p id="formMessage" class="message"></p>
-      </form>
+        <section class="grid">
+            <form id="expenseForm" class="card form-card">
+                <h2>Добавить расход</h2>
 
-      <section class="card filters-card">
-        <h2>Фильтры</h2>
-        <div class="filters">
-          <label>Дата с<input id="dateFrom" type="date" /></label>
-          <label>Дата по<input id="dateTo" type="date" /></label>
-          <label>Категория<select id="filterCategory"></select></label>
-          <label>Поиск<input id="search" placeholder="По описанию" /></label>
-        </div>
-        <div class="actions">
-          <button id="applyFilters" type="button">Применить</button>
-          <button id="resetFilters" type="button" class="secondary">Сбросить</button>
-        </div>
-      </section>
-    </section>
+                <label>
+                    Описание
+                    <input id="description" maxlength="200" placeholder="Например, кофе" required />
+                </label>
 
-    <section class="grid stats-grid">
-      <section class="card">
-        <h2>Расходы по категориям</h2>
-        <ul id="categorySummary" class="summary-list"></ul>
-      </section>
-      <section class="card">
-        <h2>График трат</h2>
-        <canvas id="expensesChart" height="120"></canvas>
-      </section>
-    </section>
+                <label>
+                    Сумма
+                    <input id="amount" type="number" min="0.01" step="0.01" placeholder="250" required />
+                </label>
 
-    <section class="card">
-      <div class="list-header">
-        <h2>Список расходов</h2>
-        <span id="itemsCount"></span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Дата</th><th>Описание</th><th>Категория</th><th>Сумма</th><th></th></tr></thead>
-          <tbody id="expensesBody"></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
-  <script src="app.js"></script>
+                <label>
+                    Дата
+                    <input id="date" type="date" required />
+                </label>
+
+                <label>
+                    Категория
+                    <select id="category" required></select>
+                </label>
+
+                <button type="submit">Сохранить</button>
+                <p id="formMessage" class="message"></p>
+            </form>
+
+            <section class="card filters-card">
+                <h2>Фильтры</h2>
+
+                <div class="filters">
+                    <label>
+                        Дата с
+                        <input id="dateFrom" type="date" />
+                    </label>
+
+                    <label>
+                        Дата по
+                        <input id="dateTo" type="date" />
+                    </label>
+
+                    <label>
+                        Категория
+                        <select id="filterCategory"></select>
+                    </label>
+
+                    <label>
+                        Поиск
+                        <input id="search" placeholder="По описанию" />
+                    </label>
+                </div>
+
+                <div class="actions">
+                    <button id="applyFilters" type="button">Применить</button>
+                    <button id="resetFilters" type="button" class="secondary">Сбросить</button>
+                </div>
+            </section>
+        </section>
+
+        <section class="grid stats-grid">
+            <section class="card summary-card">
+                <div class="summary-total-box">
+                    <div>
+                        <p class="summary-label">Всего за период</p>
+                        <strong id="totalAmount" class="summary-total">0 ₽</strong>
+                    </div>
+                    <div class="summary-icon">₽</div>
+                </div>
+
+                <div class="summary-header">
+                    <h2>Расходы по категориям</h2>
+                    <span class="summary-hint">Показывает от большего к меньшему</span>
+                </div>
+
+                <ul id="categorySummary" class="summary-list"></ul>
+            </section>
+
+            <section class="card chart-card">
+                <h2>График трат</h2>
+                <canvas id="expensesChart" height="120"></canvas>
+            </section>
+        </section>
+
+        <section class="card">
+            <div class="list-header">
+                <h2>Список расходов</h2>
+                <span id="itemsCount"></span>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Описание</th>
+                            <th>Категория</th>
+                            <th>Сумма</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
 </body>
 </html>
