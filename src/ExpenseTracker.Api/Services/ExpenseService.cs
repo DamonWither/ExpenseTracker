@@ -166,7 +166,7 @@ public sealed class ExpenseService(AppDbContext db)
     private static void ValidateQuery(ExpenseQuery query)
     {
         if (query.DateFrom is not null && query.DateTo is not null && query.DateFrom > query.DateTo)
-            throw new ArgumentException("Значение DateFrom должно быть меньше или равно значению DateTo");
+            throw new ArgumentException("Начальная дата периода должна быть меньше или равна конечой дате периода");
 
         if (query.Page < 1)
             throw new ArgumentException("Страница должна быть больше 0");
