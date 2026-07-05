@@ -1,27 +1,28 @@
-using System.ComponentModel.DataAnnotations;
+п»їusing System.ComponentModel.DataAnnotations;
+using ExpenseTracker.Api.Entities;
 using ExpenseTracker.Api.Enums;
 
 namespace ExpenseTracker.Api.Dtos;
 
 /// <summary>
-/// Общие свойства DTO расхода. Используется как базовый класс для Create/Update/Response.
-/// Содержит атрибуты валидации для входящих моделей.
+/// РћР±С‰РёРµ СЃРІРѕР№СЃС‚РІР° DTO СЂР°СЃС…РѕРґР°. РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РєР°Рє Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ Create/Update/Response.
+/// РЎРѕРґРµСЂР¶РёС‚ Р°С‚СЂРёР±СѓС‚С‹ РІР°Р»РёРґР°С†РёРё РґР»СЏ РІС…РѕРґСЏС‰РёС… РјРѕРґРµР»РµР№.
 /// </summary>
 public abstract class ExpenseDtoBase : IExpense
 {
-    /// <summary>Краткое описание расхода </summary>
+    /// <summary>РљСЂР°С‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ СЂР°СЃС…РѕРґР° </summary>
     [Required]
     [MinLength(1)]
     [MaxLength(200)]
     public string Description { get; set; } = string.Empty;
 
-    /// <summary>Сумма расхода </summary>
+    /// <summary>РЎСѓРјРјР° СЂР°СЃС…РѕРґР° </summary>
     [Range(0.01, 999999999.99)]
     public decimal Amount { get; set; }
 
-    /// <summary>Дата расхода </summary>
+    /// <summary>Р”Р°С‚Р° СЂР°СЃС…РѕРґР° </summary>
     public DateOnly Date { get; set; }
 
-    /// <summary>Категория расхода </summary>
+    /// <summary>РљР°С‚РµРіРѕСЂРёСЏ СЂР°СЃС…РѕРґР° </summary>
     public ExpenseCategory Category { get; set; }
 }

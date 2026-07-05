@@ -1,4 +1,4 @@
-using ExpenseTracker.Api.Data;
+п»їusing ExpenseTracker.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -10,9 +10,9 @@ namespace ExpenseTracker.Api.Migrations
     partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         /// <summary>
-        /// Снимок модели EF Core для миграций
-        /// Описывает сущность Expense и её маппинг на таблицу "expenses"
-        /// Поля сущности и соответствие колонкам:
+        /// РЎРЅРёРјРѕРє РјРѕРґРµР»Рё EF Core РґР»СЏ РјРёРіСЂР°С†РёР№
+        /// РћРїРёСЃС‹РІР°РµС‚ СЃСѓС‰РЅРѕСЃС‚СЊ Expense Рё РµС‘ РјР°РїРїРёРЅРі РЅР° С‚Р°Р±Р»РёС†Сѓ "expenses"
+        /// РџРѕР»СЏ СЃСѓС‰РЅРѕСЃС‚Рё Рё СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ РєРѕР»РѕРЅРєР°Рј:
         /// - Id (GUID) -> id
         /// - Description (string, max 200) -> description
         /// - Amount (decimal numeric(12,2)) -> amount
@@ -20,7 +20,7 @@ namespace ExpenseTracker.Api.Migrations
         /// - Category (string, max 32) -> category
         /// - CreatedAt (DateTimeOffset) -> created_at
         /// - UpdatedAt (DateTimeOffset?) -> updated_at
-        /// Также определены индексы по полям Category и Date
+        /// РўР°РєР¶Рµ РѕРїСЂРµРґРµР»РµРЅС‹ РёРЅРґРµРєСЃС‹ РїРѕ РїРѕР»СЏРј Category Рё Date
         /// </summary>
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

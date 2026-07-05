@@ -1,4 +1,4 @@
-using ExpenseTracker.Api.Dtos;
+п»їusing ExpenseTracker.Api.Dtos;
 using ExpenseTracker.Api.Enums;
 using ExpenseTracker.Api.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExpenseTracker.Api.Controllers;
 
 /// <summary>
-/// Контроллер работы с расходами.
-/// Поддерживает получение списка с фильтрацией/пагинацией, CRUD и сводку по периодам.
+/// РљРѕРЅС‚СЂРѕР»Р»РµСЂ СЂР°Р±РѕС‚С‹ СЃ СЂР°СЃС…РѕРґР°РјРё.
+/// РџРѕРґРґРµСЂР¶РёРІР°РµС‚ РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃ С„РёР»СЊС‚СЂР°С†РёРµР№/РїР°РіРёРЅР°С†РёРµР№, CRUD Рё СЃРІРѕРґРєСѓ РїРѕ РїРµСЂРёРѕРґР°Рј.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public sealed class ExpensesController(ExpenseService service) : ControllerBase
 {
     /// <summary>
-    /// Получить список расходов с фильтрацией и пагинацией
+    /// РџРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє СЂР°СЃС…РѕРґРѕРІ СЃ С„РёР»СЊС‚СЂР°С†РёРµР№ Рё РїР°РіРёРЅР°С†РёРµР№
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<PagedResult<ExpenseResponse>>> Get(
@@ -30,7 +30,7 @@ public sealed class ExpensesController(ExpenseService service) : ControllerBase
     }
 
     /// <summary>
-    /// Получить расход по идентификатору
+    /// РџРѕР»СѓС‡РёС‚СЊ СЂР°СЃС…РѕРґ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
     /// </summary>
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ExpenseResponse>> GetById(Guid id, CancellationToken ct)
@@ -40,7 +40,7 @@ public sealed class ExpensesController(ExpenseService service) : ControllerBase
     }
 
     /// <summary>
-    /// Создать новый расход
+    /// РЎРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ СЂР°СЃС…РѕРґ
     /// </summary>
     [HttpPost]
     public async Task<ActionResult<ExpenseResponse>> Create([FromBody] ExpenseCreateRequest request, CancellationToken ct)
@@ -50,7 +50,7 @@ public sealed class ExpensesController(ExpenseService service) : ControllerBase
     }
 
     /// <summary>
-    /// Обновить существующий расход по id
+    /// РћР±РЅРѕРІРёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ СЂР°СЃС…РѕРґ РїРѕ id
     /// </summary>
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<ExpenseResponse>> Update(Guid id, [FromBody] ExpenseUpdateRequest request, CancellationToken ct)
@@ -60,7 +60,7 @@ public sealed class ExpensesController(ExpenseService service) : ControllerBase
     }
 
     /// <summary>
-    /// Удалить расход по id
+    /// РЈРґР°Р»РёС‚СЊ СЂР°СЃС…РѕРґ РїРѕ id
     /// </summary>
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
@@ -70,7 +70,7 @@ public sealed class ExpensesController(ExpenseService service) : ControllerBase
     }
 
     /// <summary>
-    /// Получить сводку по расходам за период
+    /// РџРѕР»СѓС‡РёС‚СЊ СЃРІРѕРґРєСѓ РїРѕ СЂР°СЃС…РѕРґР°Рј Р·Р° РїРµСЂРёРѕРґ
     /// </summary>
     [HttpGet("summary")]
     public async Task<ActionResult<ExpenseSummaryResponse>> Summary(

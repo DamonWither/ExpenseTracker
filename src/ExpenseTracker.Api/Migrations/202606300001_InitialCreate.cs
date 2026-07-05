@@ -1,4 +1,4 @@
-using ExpenseTracker.Api.Data;
+Ôªøusing ExpenseTracker.Api.Data;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ExpenseTracker.Api.Migrations
 {
     /// <summary>
-    /// ÃË„‡ˆËˇ InitialCreate:
-    /// —ÓÁ‰‡∏Ú Ú‡·ÎËˆÛ "expenses" ‰Îˇ ı‡ÌÂÌËˇ ‡ÒıÓ‰Ó‚ Ò ÔÓÎˇÏË
-    /// - id (GUID) ó ÔÂ‚Ë˜Ì˚È ÍÎ˛˜
-    /// - description (string, max 200) ó ÓÔËÒ‡ÌËÂ ‡ÒıÓ‰‡
-    /// - amount (decimal numeric(12,2)) ó ÒÛÏÏ‡ (>0)
-    /// - date (date) ó ‰‡Ú‡ ‡ÒıÓ‰‡
-    /// - category (string, max 32) ó Í‡ÚÂ„ÓËˇ (ı‡ÌËÚÒˇ Í‡Í ÒÚÓÍ‡)
-    /// - created_at (timestamp with time zone) ó ‚ÂÏˇ ÒÓÁ‰‡ÌËˇ
-    /// - updated_at (timestamp with time zone, nullable) ó ‚ÂÏˇ Ó·ÌÓ‚ÎÂÌËˇ
-    /// “‡ÍÊÂ ‰Ó·‡‚ÎˇÂÚÒˇ Ó„‡ÌË˜ÂÌËÂ CHECK Ì‡ amount > 0 Ë ËÌ‰ÂÍÒ˚ ÔÓ category Ë date
+    /// –ú–∏–≥—Ä–∞—Ü–∏—è InitialCreate:
+    /// –°–æ–∑–¥–∞—ë—Ç —Ç–∞–±–ª–∏—Ü—É "expenses" –¥–ª—è —Ö—Ä–∞–Ω–µ–Ω–∏—è —Ä–∞—Å—Ö–æ–¥–æ–≤ —Å –ø–æ–ª—è–º–∏
+    /// - id (GUID) ‚Äî –ø–µ—Ä–≤–∏—á–Ω—ã–π –∫–ª—é—á
+    /// - description (string, max 200) ‚Äî –æ–ø–∏—Å–∞–Ω–∏–µ —Ä–∞—Å—Ö–æ–¥–∞
+    /// - amount (decimal numeric(12,2)) ‚Äî —Å—É–º–º–∞ (>0)
+    /// - date (date) ‚Äî –¥–∞—Ç–∞ —Ä–∞—Å—Ö–æ–¥–∞
+    /// - category (string, max 32) ‚Äî –∫–∞—Ç–µ–≥–æ—Ä–∏—è (—Ö—Ä–∞–Ω–∏—Ç—Å—è –∫–∞–∫ —Å—Ç—Ä–æ–∫–∞)
+    /// - created_at (timestamp with time zone) ‚Äî –≤—Ä–µ–º—è —Å–æ–∑–¥–∞–Ω–∏—è
+    /// - updated_at (timestamp with time zone, nullable) ‚Äî –≤—Ä–µ–º—è –æ–±–Ω–æ–≤–ª–µ–Ω–∏—è
+    /// –¢–∞–∫–∂–µ –¥–æ–±–∞–≤–ª—è–µ—Ç—Å—è –æ–≥—Ä–∞–Ω–∏—á–µ–Ω–∏–µ CHECK –Ω–∞ amount > 0 –∏ –∏–Ω–¥–µ–∫—Å—ã –ø–æ category –∏ date
     /// </summary>
     [DbContext(typeof(AppDbContext))]
     [Migration("202606300001_InitialCreate")]

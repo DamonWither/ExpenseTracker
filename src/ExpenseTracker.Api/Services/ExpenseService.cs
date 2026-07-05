@@ -1,4 +1,4 @@
-using ExpenseTracker.Api.Data;
+п»їusing ExpenseTracker.Api.Data;
 using ExpenseTracker.Api.Dtos;
 using ExpenseTracker.Api.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 namespace ExpenseTracker.Api.Services;
 
 /// <summary>
-/// Сервис работы с расходами: получение списка с фильтрацией/пагинацией,
-/// CRUD операции и формирование сводки
+/// РЎРµСЂРІРёСЃ СЂР°Р±РѕС‚С‹ СЃ СЂР°СЃС…РѕРґР°РјРё: РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° СЃ С„РёР»СЊС‚СЂР°С†РёРµР№/РїР°РіРёРЅР°С†РёРµР№,
+/// CRUD РѕРїРµСЂР°С†РёРё Рё С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ СЃРІРѕРґРєРё
 /// </summary>
 public sealed class ExpenseService(AppDbContext db)
 {
     /// <summary>
-    /// Получить список расходов по фильтру
+    /// РџРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє СЂР°СЃС…РѕРґРѕРІ РїРѕ С„РёР»СЊС‚СЂСѓ
     /// </summary>
-    /// <param name="query">Параметры фильтра и пагинации</param>
-    /// <param name="ct">Токен отмены</param>
+    /// <param name="query">РџР°СЂР°РјРµС‚СЂС‹ С„РёР»СЊС‚СЂР° Рё РїР°РіРёРЅР°С†РёРё</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹</param>
     public async Task<PagedResult<ExpenseResponse>> GetAsync(ExpenseQuery query, CancellationToken ct)
     {
         ValidateQuery(query);
@@ -37,10 +37,10 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Получить расход по идентификатору
+    /// РџРѕР»СѓС‡РёС‚СЊ СЂР°СЃС…РѕРґ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
     /// </summary>
-    /// <param name="id">Идентификатор расхода.</param>
-    /// <param name="ct">Токен отмены.</param>
+    /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЂР°СЃС…РѕРґР°.</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹.</param>
     public async Task<ExpenseResponse?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         var expense = await db.Expenses.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
@@ -48,10 +48,10 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Создать новый расход
+    /// РЎРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ СЂР°СЃС…РѕРґ
     /// </summary>
-    /// <param name="request">Данные для создания.</param>
-    /// <param name="ct">Токен отмены.</param>
+    /// <param name="request">Р”Р°РЅРЅС‹Рµ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ.</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹.</param>
     public async Task<ExpenseResponse> CreateAsync(ExpenseCreateRequest request, CancellationToken ct)
     {
         ValidateExpense(request.Description, request.Amount, request.Date);
@@ -73,11 +73,11 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Обновить существующий расход по id
+    /// РћР±РЅРѕРІРёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ СЂР°СЃС…РѕРґ РїРѕ id
     /// </summary>
-    /// <param name="id">Идентификатор обновляемого расхода.</param>
-    /// <param name="request">Данные для обновления.</param>
-    /// <param name="ct">Токен отмены.</param>
+    /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±РЅРѕРІР»СЏРµРјРѕРіРѕ СЂР°СЃС…РѕРґР°.</param>
+    /// <param name="request">Р”Р°РЅРЅС‹Рµ РґР»СЏ РѕР±РЅРѕРІР»РµРЅРёСЏ.</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹.</param>
     public async Task<ExpenseResponse?> UpdateAsync(Guid id, ExpenseUpdateRequest request, CancellationToken ct)
     {
         ValidateExpense(request.Description, request.Amount, request.Date);
@@ -96,10 +96,10 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Удалить расход по id
+    /// РЈРґР°Р»РёС‚СЊ СЂР°СЃС…РѕРґ РїРѕ id
     /// </summary>
-    /// <param name="id">Идентификатор удаляемого расхода.</param>
-    /// <param name="ct">Токен отмены.</param>
+    /// <param name="id">РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СѓРґР°Р»СЏРµРјРѕРіРѕ СЂР°СЃС…РѕРґР°.</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹.</param>
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
     {
         var deleted = await db.Expenses.Where(e => e.Id == id).ExecuteDeleteAsync(ct);
@@ -107,11 +107,11 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Получить сводку за период
+    /// РџРѕР»СѓС‡РёС‚СЊ СЃРІРѕРґРєСѓ Р·Р° РїРµСЂРёРѕРґ
     /// </summary>
-    /// <param name="dateFrom">Начальная дата фильтра или null.</param>
-    /// <param name="dateTo">Конечная дата фильтра или null.</param>
-    /// <param name="ct">Токен отмены.</param>
+    /// <param name="dateFrom">РќР°С‡Р°Р»СЊРЅР°СЏ РґР°С‚Р° С„РёР»СЊС‚СЂР° РёР»Рё null.</param>
+    /// <param name="dateTo">РљРѕРЅРµС‡РЅР°СЏ РґР°С‚Р° С„РёР»СЊС‚СЂР° РёР»Рё null.</param>
+    /// <param name="ct">РўРѕРєРµРЅ РѕС‚РјРµРЅС‹.</param>
     public async Task<ExpenseSummaryResponse> GetSummaryAsync(DateOnly? dateFrom, DateOnly? dateTo, CancellationToken ct)
     {
         var query = new ExpenseQuery(dateFrom, dateTo, null, null, 1, 100);
@@ -144,7 +144,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Применяет фильтры из ExpenseQuery к IQueryable<Expense>
+    /// РџСЂРёРјРµРЅСЏРµС‚ С„РёР»СЊС‚СЂС‹ РёР· ExpenseQuery Рє IQueryable<Expense>
     /// </summary>
     private static IQueryable<Expense> ApplyFilters(IQueryable<Expense> query, ExpenseQuery filter)
     {
@@ -160,35 +160,35 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Проверяет корректность параметров запроса (диапазон дат, page, pageSize)
-    /// Бросает ArgumentException при неправильных значениях
+    /// РџСЂРѕРІРµСЂСЏРµС‚ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РїР°СЂР°РјРµС‚СЂРѕРІ Р·Р°РїСЂРѕСЃР° (РґРёР°РїР°Р·РѕРЅ РґР°С‚, page, pageSize)
+    /// Р‘СЂРѕСЃР°РµС‚ ArgumentException РїСЂРё РЅРµРїСЂР°РІРёР»СЊРЅС‹С… Р·РЅР°С‡РµРЅРёСЏС…
     /// </summary>
     private static void ValidateQuery(ExpenseQuery query)
     {
         if (query.DateFrom is not null && query.DateTo is not null && query.DateFrom > query.DateTo)
-            throw new ArgumentException("dateFrom must be less than or equal to dateTo.");
+            throw new ArgumentException("Р—РЅР°С‡РµРЅРёРµ DateFrom РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРЅРѕ Р·РЅР°С‡РµРЅРёСЋ DateTo");
 
         if (query.Page < 1)
-            throw new ArgumentException("Page must be greater than 0.");
+            throw new ArgumentException("РЎС‚СЂР°РЅРёС†Р° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
 
         if (query.PageSize < 1 || query.PageSize > 100)
-            throw new ArgumentException("PageSize must be between 1 and 100.");
+            throw new ArgumentException("Р Р°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РѕС‚ 1 РґРѕ 100");
     }
 
     /// <summary>
-    /// Проверяет корректность данных расхода (description, amount, date)
-    /// Бросает ArgumentException при ошибке валидации
+    /// РџСЂРѕРІРµСЂСЏРµС‚ РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ РґР°РЅРЅС‹С… СЂР°СЃС…РѕРґР° (description, amount, date)
+    /// Р‘СЂРѕСЃР°РµС‚ ArgumentException РїСЂРё РѕС€РёР±РєРµ РІР°Р»РёРґР°С†РёРё
     /// </summary>
     private static void ValidateExpense(string description, decimal amount, DateOnly date)
     {
-        if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Description must not be empty.");
-        if (description.Trim().Length > 200) throw new ArgumentException("Description length must be 200 characters or less.");
-        if (amount <= 0) throw new ArgumentException("Amount must be greater than 0.");
-        if (date > DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(1))) throw new ArgumentException("The date is too far from the present");
+        if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("РћРїРёСЃР°РЅРёРµ РЅРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј");
+        if (description.Trim().Length > 200) throw new ArgumentException("Р”Р»РёРЅР° РѕРїРёСЃР°РЅРёСЏ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РЅРµ Р±РѕР»РµРµ 200 СЃРёРјРІРѕР»РѕРІ");
+        if (amount <= 0) throw new ArgumentException("РЎСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
+        if (date > DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(1))) throw new ArgumentException("Р­С‚Р° РґР°С‚Р° СЃР»РёС€РєРѕРј РґР°Р»РµРєР° РѕС‚ РЅР°СЃС‚РѕСЏС‰РµРіРѕ");
     }
 
     /// <summary>
-    /// Преобразует сущность Expense в DTO ExpenseResponse
+    /// РџСЂРµРѕР±СЂР°Р·СѓРµС‚ СЃСѓС‰РЅРѕСЃС‚СЊ Expense РІ DTO ExpenseResponse
     /// </summary>
     private static ExpenseResponse ToResponse(Expense e) => new(e.Id, e.Description, e.Amount, e.Date, e.Category, e.CreatedAt, e.UpdatedAt);
 }

@@ -1,31 +1,31 @@
-using ExpenseTracker.Api.Dtos;
+п»їusing ExpenseTracker.Api.Dtos;
 using ExpenseTracker.Api.Enums;
 
 namespace ExpenseTracker.Api.Entities;
 
 /// <summary>
-/// Сущность расхода. Представляет запись в таблице расходов с основными полями для CRUD и отчетности.
+/// РЎСѓС‰РЅРѕСЃС‚СЊ СЂР°СЃС…РѕРґР°. РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ Р·Р°РїРёСЃСЊ РІ С‚Р°Р±Р»РёС†Рµ СЂР°СЃС…РѕРґРѕРІ СЃ РѕСЃРЅРѕРІРЅС‹РјРё РїРѕР»СЏРјРё РґР»СЏ CRUD Рё РѕС‚С‡РµС‚РЅРѕСЃС‚Рё.
 /// </summary>
 public sealed class Expense : IExpense
 {
-    /// <summary>Идентификатор записи (GUID).</summary>
+    /// <summary>РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р·Р°РїРёСЃРё (GUID).</summary>
     public Guid Id { get; set; }
 
-    /// <summary>Описание расхода. Ожидается непустая строка (макс 200 символов по конфигурации).</summary>
+    /// <summary>РћРїРёСЃР°РЅРёРµ СЂР°СЃС…РѕРґР°. РћР¶РёРґР°РµС‚СЃСЏ РЅРµРїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° (РјР°РєСЃ 200 СЃРёРјРІРѕР»РѕРІ РїРѕ РєРѕРЅС„РёРіСѓСЂР°С†РёРё).</summary>
     public string Description { get; set; } = string.Empty;
 
-    /// <summary>Сумма расхода (decimal).</summary>
+    /// <summary>РЎСѓРјРјР° СЂР°СЃС…РѕРґР° (decimal).</summary>
     public decimal Amount { get; set; }
 
-    /// <summary>Дата совершения расхода (DateOnly).</summary>
+    /// <summary>Р”Р°С‚Р° СЃРѕРІРµСЂС€РµРЅРёСЏ СЂР°СЃС…РѕРґР° (DateOnly).</summary>
     public DateOnly Date { get; set; }
 
-    /// <summary>Категория расхода (enum ExpenseCategory).</summary>
+    /// <summary>РљР°С‚РµРіРѕСЂРёСЏ СЂР°СЃС…РѕРґР° (enum ExpenseCategory).</summary>
     public ExpenseCategory Category { get; set; }
 
-    /// <summary>Время создания записи (DateTimeOffset, UTC).</summary>
+    /// <summary>Р’СЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ Р·Р°РїРёСЃРё (DateTimeOffset, UTC).</summary>
     public DateTimeOffset CreatedAt { get; set; }
 
-    /// <summary>Время последнего обновления или null, если не изменялось.</summary>
+    /// <summary>Р’СЂРµРјСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ РёР»Рё null, РµСЃР»Рё РЅРµ РёР·РјРµРЅСЏР»РѕСЃСЊ.</summary>
     public DateTimeOffset? UpdatedAt { get; set; }
 }

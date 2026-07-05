@@ -1,21 +1,21 @@
-using System.Net;
+п»їusing System.Net;
 using System.Text.Json;
 
 namespace ExpenseTracker.Api.Middleware;
 
 /// <summary>
-/// Middleware для глобальной обработки исключений в API
-/// Перехватывает исключения из последующих middleware/контроллеров и возвращает клиенту
+/// Middleware РґР»СЏ РіР»РѕР±Р°Р»СЊРЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё РёСЃРєР»СЋС‡РµРЅРёР№ РІ API
+/// РџРµСЂРµС…РІР°С‚С‹РІР°РµС‚ РёСЃРєР»СЋС‡РµРЅРёСЏ РёР· РїРѕСЃР»РµРґСѓСЋС‰РёС… middleware/РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРІ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РєР»РёРµРЅС‚Сѓ
 /// </summary>
-/// <param name="next">Следующий middleware в конвейере </param>
-/// <param name="logger">Логгер для записи неожиданных ошибок </param>
+/// <param name="next">РЎР»РµРґСѓСЋС‰РёР№ middleware РІ РєРѕРЅРІРµР№РµСЂРµ </param>
+/// <param name="logger">Р›РѕРіРіРµСЂ РґР»СЏ Р·Р°РїРёСЃРё РЅРµРѕР¶РёРґР°РЅРЅС‹С… РѕС€РёР±РѕРє </param>
 public sealed class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
     /// <summary>
-    /// Обработчик запроса middleware
-    /// Принимает HttpContext и выполняет следующий обработчик в конвейере
+    /// РћР±СЂР°Р±РѕС‚С‡РёРє Р·Р°РїСЂРѕСЃР° middleware
+    /// РџСЂРёРЅРёРјР°РµС‚ HttpContext Рё РІС‹РїРѕР»РЅСЏРµС‚ СЃР»РµРґСѓСЋС‰РёР№ РѕР±СЂР°Р±РѕС‚С‡РёРє РІ РєРѕРЅРІРµР№РµСЂРµ
     /// </summary>
-    /// <param name="context">Контекст HTTP-запроса </param>
+    /// <param name="context">РљРѕРЅС‚РµРєСЃС‚ HTTP-Р·Р°РїСЂРѕСЃР° </param>
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -34,11 +34,11 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Ex
     }
 
     /// <summary>
-    /// Записывает JSON-ответ об ошибке в HttpResponse
+    /// Р—Р°РїРёСЃС‹РІР°РµС‚ JSON-РѕС‚РІРµС‚ РѕР± РѕС€РёР±РєРµ РІ HttpResponse
     /// </summary>
-    /// <param name="context">Текущий HttpContext </param>
-    /// <param name="statusCode">HTTP статус ответа </param>
-    /// <param name="message">Текст сообщения об ошибке, который будет помещён в поле "error" </param>
+    /// <param name="context">РўРµРєСѓС‰РёР№ HttpContext </param>
+    /// <param name="statusCode">HTTP СЃС‚Р°С‚СѓСЃ РѕС‚РІРµС‚Р° </param>
+    /// <param name="message">РўРµРєСЃС‚ СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± РѕС€РёР±РєРµ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїРѕРјРµС‰С‘РЅ РІ РїРѕР»Рµ "error" </param>
     private static async Task WriteErrorAsync(HttpContext context, HttpStatusCode statusCode, string message)
     {
         context.Response.StatusCode = (int)statusCode;

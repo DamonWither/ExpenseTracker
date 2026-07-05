@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+п»їusing System.Text.Json.Serialization;
 using ExpenseTracker.Api.Data;
 using ExpenseTracker.Api.Middleware;
 using ExpenseTracker.Api.Services;
@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавление DbContext: подключение к PostgreSQL через строку подключения "DefaultConnection"
+// Р”РѕР±Р°РІР»РµРЅРёРµ DbContext: РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє PostgreSQL С‡РµСЂРµР· СЃС‚СЂРѕРєСѓ РїРѕРґРєР»СЋС‡РµРЅРёСЏ "DefaultConnection"
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Регистрация сервисов приложения
+// Р РµРіРёСЃС‚СЂР°С†РёСЏ СЃРµСЂРІРёСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ
 builder.Services.AddScoped<ExpenseService>();
 
-// Контроллеры и настройки JSON
+// РљРѕРЅС‚СЂРѕР»Р»РµСЂС‹ Рё РЅР°СЃС‚СЂРѕР№РєРё JSON
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -22,7 +22,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS: разрешаем фронтенду обращаться к API
+// CORS: СЂР°Р·СЂРµС€Р°РµРј С„СЂРѕРЅС‚РµРЅРґСѓ РѕР±СЂР°С‰Р°С‚СЊСЃСЏ Рє API
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -30,26 +30,26 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Глобальная обработка исключений
+// Р“Р»РѕР±Р°Р»СЊРЅР°СЏ РѕР±СЂР°Р±РѕС‚РєР° РёСЃРєР»СЋС‡РµРЅРёР№
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// Применение CORS-политики к конвейеру
+// РџСЂРёРјРµРЅРµРЅРёРµ CORS-РїРѕР»РёС‚РёРєРё Рє РєРѕРЅРІРµР№РµСЂСѓ
 app.UseCors("Frontend");
 
-// Swagger доступен только в режиме разработки
+// Swagger РґРѕСЃС‚СѓРїРµРЅ С‚РѕР»СЊРєРѕ РІ СЂРµР¶РёРјРµ СЂР°Р·СЂР°Р±РѕС‚РєРё
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Поддержка статических файлов (frontend SPA) — корневая папка wwwroot
+// РџРѕРґРґРµСЂР¶РєР° СЃС‚Р°С‚РёС‡РµСЃРєРёС… С„Р°Р№Р»РѕРІ (frontend SPA) вЂ” РєРѕСЂРЅРµРІР°СЏ РїР°РїРєР° wwwroot
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapControllers();
 
-// Автоматическое применение миграций при старте
+// РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРµ РїСЂРёРјРµРЅРµРЅРёРµ РјРёРіСЂР°С†РёР№ РїСЂРё СЃС‚Р°СЂС‚Рµ
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
