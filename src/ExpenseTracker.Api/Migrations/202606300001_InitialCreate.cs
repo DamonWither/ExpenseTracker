@@ -8,7 +8,7 @@ namespace ExpenseTracker.Api.Migrations
 {
     /// <summary>
     /// Миграция InitialCreate:
-    /// Создаёт таблицу "expenses" для хранения расходов с полями:
+    /// Создаёт таблицу "expenses" для хранения расходов с полями
     /// - id (GUID) — первичный ключ
     /// - description (string, max 200) — описание расхода
     /// - amount (decimal numeric(12,2)) — сумма (>0)
@@ -16,7 +16,7 @@ namespace ExpenseTracker.Api.Migrations
     /// - category (string, max 32) — категория (хранится как строка)
     /// - created_at (timestamp with time zone) — время создания
     /// - updated_at (timestamp with time zone, nullable) — время обновления
-    /// Также добавляется ограничение CHECK на amount > 0 и индексы по category и date.
+    /// Также добавляется ограничение CHECK на amount > 0 и индексы по category и date
     /// </summary>
     [DbContext(typeof(AppDbContext))]
     [Migration("202606300001_InitialCreate")]
@@ -24,48 +24,38 @@ namespace ExpenseTracker.Api.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Создание таблицы "expenses" с указанными колонками и типами
             migrationBuilder.CreateTable(
                 name: "expenses",
                 columns: table => new
                 {
-                    // Идентификатор записи (GUID)
                     id = table.Column<Guid>(type: "uuid", nullable: false),
 
-                    // Описание расхода, обязательно, maxLength 200
                     description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
 
-                    // Сумма расхода, numeric(12,2) — в миграции добавлен CHECK amount > 0
                     amount = table.Column<decimal>(type: "numeric(12,2)", nullable: false),
 
-                    // Дата расхода, хранится как date
                     date = table.Column<DateTime>(type: "date", nullable: false),
 
-                    // Категория как строка, maxLength 32
                     category = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
 
-                    // Время создания (TIMESTAMP WITH TIME ZONE)
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
 
-                    // Время обновления (nullable)
                     updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_expenses", x => x.id);
-                    // Ограничение: сумма должна быть положительной
+                    
                     table.CheckConstraint("CK_expenses_amount_positive", "amount > 0");
                 });
 
-            // Индекс по категории для ускорения фильтрации
             migrationBuilder.CreateIndex(name: "IX_expenses_category", table: "expenses", column: "category");
-            // Индекс по дате для ускорения диапазонных запросов
+            
             migrationBuilder.CreateIndex(name: "IX_expenses_date", table: "expenses", column: "date");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // Откат: удаляем таблицу expenses
             migrationBuilder.DropTable(name: "expenses");
         }
     }

@@ -13,8 +13,6 @@ public sealed class ExpenseService(AppDbContext db)
 {
     /// <summary>
     /// Получить список расходов по фильтру
-    /// Параметр: ExpenseQuery (dateFrom, dateTo, category, search, page, pageSize)
-    /// Возвращает PagedResult<ExpenseResponse> с элементами и метаданными пагинации
     /// </summary>
     /// <param name="query">Параметры фильтра и пагинации</param>
     /// <param name="ct">Токен отмены</param>
@@ -39,9 +37,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Получить расход по идентификатору.
-    /// Параметр: id (GUID).
-    /// Возвращает ExpenseResponse или null если не найден.
+    /// Получить расход по идентификатору
     /// </summary>
     /// <param name="id">Идентификатор расхода.</param>
     /// <param name="ct">Токен отмены.</param>
@@ -52,9 +48,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Создать новый расход.
-    /// Тело: ExpenseCreateRequest (Description, Amount, Date, Category).
-    /// Возвращает созданный ExpenseResponse.
+    /// Создать новый расход
     /// </summary>
     /// <param name="request">Данные для создания.</param>
     /// <param name="ct">Токен отмены.</param>
@@ -79,8 +73,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Обновить существующий расход по id.
-    /// Тело: ExpenseUpdateRequest. Возвращает обновлённый ExpenseResponse или null если не найден.
+    /// Обновить существующий расход по id
     /// </summary>
     /// <param name="id">Идентификатор обновляемого расхода.</param>
     /// <param name="request">Данные для обновления.</param>
@@ -103,8 +96,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Удалить расход по id.
-    /// Возвращает true если удаление выполнено, иначе false.
+    /// Удалить расход по id
     /// </summary>
     /// <param name="id">Идентификатор удаляемого расхода.</param>
     /// <param name="ct">Токен отмены.</param>
@@ -115,9 +107,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Получить сводку за период.
-    /// Параметры: dateFrom, dateTo (DateOnly?).
-    /// Возвращает ExpenseSummaryResponse (totalAmount, byCategory, byDay).
+    /// Получить сводку за период
     /// </summary>
     /// <param name="dateFrom">Начальная дата фильтра или null.</param>
     /// <param name="dateTo">Конечная дата фильтра или null.</param>
@@ -154,7 +144,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Применяет фильтры из ExpenseQuery к IQueryable<Expense>.
+    /// Применяет фильтры из ExpenseQuery к IQueryable<Expense>
     /// </summary>
     private static IQueryable<Expense> ApplyFilters(IQueryable<Expense> query, ExpenseQuery filter)
     {
@@ -170,8 +160,8 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Проверяет корректность параметров запроса (диапазон дат, page, pageSize).
-    /// Бросает ArgumentException при неправильных значениях.
+    /// Проверяет корректность параметров запроса (диапазон дат, page, pageSize)
+    /// Бросает ArgumentException при неправильных значениях
     /// </summary>
     private static void ValidateQuery(ExpenseQuery query)
     {
@@ -186,8 +176,8 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Проверяет корректность данных расхода (description, amount, date).
-    /// Бросает ArgumentException при ошибке валидации.
+    /// Проверяет корректность данных расхода (description, amount, date)
+    /// Бросает ArgumentException при ошибке валидации
     /// </summary>
     private static void ValidateExpense(string description, decimal amount, DateOnly date)
     {
@@ -198,7 +188,7 @@ public sealed class ExpenseService(AppDbContext db)
     }
 
     /// <summary>
-    /// Преобразует сущность Expense в DTO ExpenseResponse.
+    /// Преобразует сущность Expense в DTO ExpenseResponse
     /// </summary>
     private static ExpenseResponse ToResponse(Expense e) => new(e.Id, e.Description, e.Amount, e.Date, e.Category, e.CreatedAt, e.UpdatedAt);
 }

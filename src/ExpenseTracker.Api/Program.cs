@@ -47,7 +47,6 @@ if (app.Environment.IsDevelopment())
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// Контроллеры (например /api/expenses)
 app.MapControllers();
 
 // Автоматическое применение миграций при старте
@@ -57,5 +56,4 @@ using (var scope = app.Services.CreateScope())
     await db.Database.MigrateAsync();
 }
 
-// Запуск приложения
 app.Run();
