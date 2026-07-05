@@ -122,6 +122,24 @@ http://localhost:5000
 
 Если используется другой порт, его покажет `dotnet run`.
 
+## Создание списка расходов через SQL запрос
+```sql
+INSERT INTO expenses (id, description, amount, date, category, created_at, updated_at)
+SELECT
+  gen_random_uuid() AS id,
+  LEFT('Расход ' || gs , 200) AS description,
+  round((random() * 490 + 10)::numeric, 2) AS amount,
+  (current_date - (floor(random() * 365)::int || ' days')::interval)::date AS date,
+  c.categories[(floor(random() * array_length(c.categories, 1))::int) + 1] AS category,
+  now() - (floor(random() * 365)::int || ' days')::interval - (floor(random() * 86400)::int || ' seconds')::interval AS created_at,
+  CASE WHEN random() < 0.4
+       THEN now() - (floor(random() * 180)::int || ' days')::interval - (floor(random() * 86400)::int || ' seconds')::interval
+       ELSE NULL
+  END AS updated_at
+FROM generate_series(1,100) gs
+CROSS JOIN (SELECT ARRAY['Food','Transport','Housing','Entertainment','Health','Other']::text[] AS categories) c;
+```
+
 ## REST API
 
 ### Получить список расходов
