@@ -120,6 +120,23 @@
                     <tbody id="expensesBody"></tbody>
                 </table>
             </div>
+
+            <div id="pagination" class="pagination">
+                <div class="pagination-controls">
+                    <button id="prevPage" type="button">Предыдущая страница</button>
+                    <div id="pages"></div>
+                    <button id="nextPage" type="button">Следующая страница</button>
+                </div>
+                <div class="page-size">
+                    Строк на странице:
+                    <select id="pageSizeSelect">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
         </section>
     </main>
 
