@@ -10,5 +10,5 @@ public enum ExpenseCategory
     Housing = 3,
     Entertainment = 4,
     Health = 5,
-    Other = 6
+    Other = 999
 }

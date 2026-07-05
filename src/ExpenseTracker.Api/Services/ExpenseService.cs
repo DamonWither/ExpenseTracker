@@ -5,8 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Api.Services;
 
+/// <summary>
+/// Сервис работы с расходами: получение списка с фильтрацией/пагинацией,
+/// CRUD операции и формирование сводки
+/// </summary>
 public sealed class ExpenseService(AppDbContext db)
 {
+    /// <summary>
+    /// Получить список расходов по фильтру
+    /// Параметр: ExpenseQuery (dateFrom, dateTo, category, search, page, pageSize)
+    /// Возвращает PagedResult<ExpenseResponse> с элементами и метаданными пагинации
+    /// </summary>
+    /// <param name="query">Параметры фильтра и пагинации</param>
+    /// <param name="ct">Токен отмены</param>
     public async Task<PagedResult<ExpenseResponse>> GetAsync(ExpenseQuery query, CancellationToken ct)
     {
         ValidateQuery(query);
@@ -27,12 +38,26 @@ public sealed class ExpenseService(AppDbContext db)
         return new PagedResult<ExpenseResponse>(items, total, page, pageSize);
     }
 
+    /// <summary>
+    /// Получить расход по идентификатору.
+    /// Параметр: id (GUID).
+    /// Возвращает ExpenseResponse или null если не найден.
+    /// </summary>
+    /// <param name="id">Идентификатор расхода.</param>
+    /// <param name="ct">Токен отмены.</param>
     public async Task<ExpenseResponse?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         var expense = await db.Expenses.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, ct);
         return expense is null ? null : ToResponse(expense);
     }
 
+    /// <summary>
+    /// Создать новый расход.
+    /// Тело: ExpenseCreateRequest (Description, Amount, Date, Category).
+    /// Возвращает созданный ExpenseResponse.
+    /// </summary>
+    /// <param name="request">Данные для создания.</param>
+    /// <param name="ct">Токен отмены.</param>
     public async Task<ExpenseResponse> CreateAsync(ExpenseCreateRequest request, CancellationToken ct)
     {
         ValidateExpense(request.Description, request.Amount, request.Date);
@@ -53,6 +78,13 @@ public sealed class ExpenseService(AppDbContext db)
         return ToResponse(expense);
     }
 
+    /// <summary>
+    /// Обновить существующий расход по id.
+    /// Тело: ExpenseUpdateRequest. Возвращает обновлённый ExpenseResponse или null если не найден.
+    /// </summary>
+    /// <param name="id">Идентификатор обновляемого расхода.</param>
+    /// <param name="request">Данные для обновления.</param>
+    /// <param name="ct">Токен отмены.</param>
     public async Task<ExpenseResponse?> UpdateAsync(Guid id, ExpenseUpdateRequest request, CancellationToken ct)
     {
         ValidateExpense(request.Description, request.Amount, request.Date);
@@ -70,12 +102,26 @@ public sealed class ExpenseService(AppDbContext db)
         return ToResponse(expense);
     }
 
+    /// <summary>
+    /// Удалить расход по id.
+    /// Возвращает true если удаление выполнено, иначе false.
+    /// </summary>
+    /// <param name="id">Идентификатор удаляемого расхода.</param>
+    /// <param name="ct">Токен отмены.</param>
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
     {
         var deleted = await db.Expenses.Where(e => e.Id == id).ExecuteDeleteAsync(ct);
         return deleted > 0;
     }
 
+    /// <summary>
+    /// Получить сводку за период.
+    /// Параметры: dateFrom, dateTo (DateOnly?).
+    /// Возвращает ExpenseSummaryResponse (totalAmount, byCategory, byDay).
+    /// </summary>
+    /// <param name="dateFrom">Начальная дата фильтра или null.</param>
+    /// <param name="dateTo">Конечная дата фильтра или null.</param>
+    /// <param name="ct">Токен отмены.</param>
     public async Task<ExpenseSummaryResponse> GetSummaryAsync(DateOnly? dateFrom, DateOnly? dateTo, CancellationToken ct)
     {
         var query = new ExpenseQuery(dateFrom, dateTo, null, null, 1, 100);
@@ -107,6 +153,9 @@ public sealed class ExpenseService(AppDbContext db)
         return new ExpenseSummaryResponse(total, byCategory, byDay);
     }
 
+    /// <summary>
+    /// Применяет фильтры из ExpenseQuery к IQueryable<Expense>.
+    /// </summary>
     private static IQueryable<Expense> ApplyFilters(IQueryable<Expense> query, ExpenseQuery filter)
     {
         if (filter.DateFrom is not null) query = query.Where(e => e.Date >= filter.DateFrom.Value);
@@ -120,6 +169,10 @@ public sealed class ExpenseService(AppDbContext db)
         return query;
     }
 
+    /// <summary>
+    /// Проверяет корректность параметров запроса (диапазон дат, page, pageSize).
+    /// Бросает ArgumentException при неправильных значениях.
+    /// </summary>
     private static void ValidateQuery(ExpenseQuery query)
     {
         if (query.DateFrom is not null && query.DateTo is not null && query.DateFrom > query.DateTo)
@@ -132,13 +185,20 @@ public sealed class ExpenseService(AppDbContext db)
             throw new ArgumentException("PageSize must be between 1 and 100.");
     }
 
+    /// <summary>
+    /// Проверяет корректность данных расхода (description, amount, date).
+    /// Бросает ArgumentException при ошибке валидации.
+    /// </summary>
     private static void ValidateExpense(string description, decimal amount, DateOnly date)
     {
         if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException("Description must not be empty.");
         if (description.Trim().Length > 200) throw new ArgumentException("Description length must be 200 characters or less.");
         if (amount <= 0) throw new ArgumentException("Amount must be greater than 0.");
-        if (date > DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(1))) throw new ArgumentException("Дата слишком отдалённая от настоящего");
+        if (date > DateOnly.FromDateTime(DateTime.UtcNow.Date.AddDays(1))) throw new ArgumentException("The date is too far from the present");
     }
 
+    /// <summary>
+    /// Преобразует сущность Expense в DTO ExpenseResponse.
+    /// </summary>
     private static ExpenseResponse ToResponse(Expense e) => new(e.Id, e.Description, e.Amount, e.Date, e.Category, e.CreatedAt, e.UpdatedAt);
 }
